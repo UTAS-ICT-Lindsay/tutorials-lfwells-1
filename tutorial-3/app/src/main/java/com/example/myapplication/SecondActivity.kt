@@ -25,5 +25,9 @@ class SecondActivity : AppCompatActivity() {
         }
 
         ui.lblEnteredText.text = intent.getStringExtra(USERNAME_KEY)
+
+        ui.btnBack.setOnClickListener {
+            finish()
+        }
     }
 }

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <EditText
         android:id="@+id/txtName"
@@ -13,6 +12,7 @@
         android:layout_weight="1"
         android:ems="10"
         android:hint="@string/enter_hint"
+        android:imeOptions="actionDone"
         android:inputType="text" />
 
     <Button
@@ -20,4 +20,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@android:string/ok" />
+
+    <Button
+        android:id="@+id/btnCharacterSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Select Character" />
 </LinearLayout>
