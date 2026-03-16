@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My First App</string>
+    <string name="hello_world">Hello Android in German</string>
+    <string name="ok">YESYESYSYESYES</string>
+    <string name="enter_hint">hinweis eingeben</string>
+</resources>
