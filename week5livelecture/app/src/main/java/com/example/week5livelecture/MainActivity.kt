@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.week5livelecture.databinding.ActivityMainBinding
 import com.example.week5livelecture.databinding.MyListItemBinding
+import com.example.week5livelecture.databinding.PopupFormBinding
 
 val items = mutableListOf(
     Person(name = "Rick", studentID = 9001, smort = true),
@@ -38,6 +39,25 @@ class MainActivity : AppCompatActivity() {
 
         ui.myList.adapter = PersonAdapter(people = items)
         ui.myList.layoutManager = GridLayoutManager(this, 3)
+
+        ui.btnAdd.setOnClickListener {
+
+            val popupUI = PopupFormBinding.inflate(layoutInflater)
+
+            val builder = AlertDialog.Builder(this)
+            builder.setView(popupUI.root)
+
+            val instanceOfTheAlertDialog = builder.show()
+            //popupUI.txtName.text = "asdfdsf"
+            popupUI.btnEnter.setOnClickListener {
+                //set the name
+                val newPerson = Person(name = popupUI.txtName.text.toString(), studentID = 9000, smort = true)
+                items.add(newPerson)
+                ui.myList.adapter?.notifyItemInserted(items.size - 1)
+                //close it
+                instanceOfTheAlertDialog.dismiss()
+            }
+        }
     }
 
 
@@ -59,7 +79,7 @@ class MainActivity : AppCompatActivity() {
 
             val person = people[position]
             holder.ui.txtName.text = person.name
-            holder.ui.txtStudentID.text = person.studentID.toString()
+            holder.ui.txtStudentID.text = if (person.smort) "SMORT" else "DE<MB"//person.studentID.toString()
 
             holder.itemView.setOnClickListener {
                 val builder = AlertDialog.Builder(holder.itemView.context)
@@ -73,13 +93,14 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 builder.setNegativeButton(android.R.string.no) { dialog, which ->
-                    Toast.makeText(applicationContext,
-                        android.R.string.no, Toast.LENGTH_SHORT).show()
+                    people.removeAt(position)
+                    this.notifyItemRemoved(position)
+                    this.notifyItemRangeChanged(position, people.size)
                 }
 
-                builder.setNeutralButton("Maybe") { dialog, which ->
-                    Toast.makeText(applicationContext,
-                        "Maybe", Toast.LENGTH_SHORT).show()
+                builder.setNeutralButton("Toggle Smort") { dialog, which ->
+                    person.smort = !person.smort
+                    this.notifyItemChanged(position)
                 }
                 builder.show()
             }
