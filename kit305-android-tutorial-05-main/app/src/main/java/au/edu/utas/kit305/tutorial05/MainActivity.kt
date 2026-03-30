@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity()
          */
         ui.lblMovieCount.text = "Loading..."
         moviesCollection
+            .whereLessThan("year", 2026)
             .get()
             .addOnSuccessListener { result ->
                 items.clear() //this line clears the list, and prevents a bug where items would be duplicated upon rotation of screen
@@ -76,6 +77,7 @@ class MainActivity : AppCompatActivity()
                     //populating the array
                     items.add(movie)
                 }
+                //items = items.filter { movie -> movie.year < 2006 }.toList()
                 ui.lblMovieCount.text = "There are ${items.size} movies"
                 (ui.myList.adapter as MovieAdapter).notifyDataSetChanged()
                 //you may choose to fix the warning that notifyDataSetChanged() is not specific enough using:
@@ -117,6 +119,18 @@ class MainActivity : AppCompatActivity()
                 changingItem = position
                 intent.putExtra(MOVIE_INDEX, position)
                 startActivity(intent)
+            }
+
+            holder.ui.btnDelete.setOnClickListener {
+                val db = Firebase.firestore
+                db.document("movies/${movie.id}")
+                    .delete()
+                    .addOnSuccessListener {
+                        items.removeAt(position)
+                        notifyItemRemoved(position)
+                        //notify range changed cant remember from last week
+
+                    }
             }
         }
     }
